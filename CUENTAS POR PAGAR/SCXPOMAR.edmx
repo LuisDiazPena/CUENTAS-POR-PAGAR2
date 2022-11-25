@@ -1,0 +1,290 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SCXPOMARModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CHEQUESOMAR">
+          <Key>
+            <PropertyRef Name="NUMEROCHEQUE" />
+          </Key>
+          <Property Name="NUMEROCHEQUE" Type="int" Nullable="false" />
+          <Property Name="NUMEROFACTURA" Type="int" />
+          <Property Name="VALORCHEQUE" Type="money" />
+          <Property Name="FECHACHEQUE" Type="date" />
+        </EntityType>
+        <EntityType Name="FACTURASOMAR">
+          <Key>
+            <PropertyRef Name="NUMEROFACTURA" />
+          </Key>
+          <Property Name="NUMEROFACTURA" Type="int" Nullable="false" />
+          <Property Name="CODIGO" Type="varchar" MaxLength="7" />
+          <Property Name="VALORFACTURA" Type="money" />
+          <Property Name="FECHAFACTURA" Type="date" />
+          <Property Name="FECHAVENCIMIENTO" Type="date" />
+        </EntityType>
+        <EntityType Name="PROVEEDORESOMAR">
+          <Key>
+            <PropertyRef Name="CODIGO" />
+          </Key>
+          <Property Name="CODIGO" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="NOMBRES" Type="varchar" MaxLength="30" />
+          <Property Name="APELLIDOS" Type="varchar" MaxLength="30" />
+          <Property Name="DIRECCION" Type="varchar" MaxLength="45" />
+          <Property Name="CIUDAD" Type="varchar" MaxLength="30" />
+          <Property Name="TELEFONO" Type="varchar" MaxLength="12" />
+        </EntityType>
+        <EntityType Name="USUARIOSOMAR">
+          <Key>
+            <PropertyRef Name="USUARIO" />
+          </Key>
+          <Property Name="USUARIO" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="CLAVE" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SCXPOMAR.dbo.ESTADODECUENTASOMAR' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ESTADODECUENTASOMAR">
+          <Key>
+            <PropertyRef Name="CODIGO" />
+            <PropertyRef Name="NUMEROFACTURA" />
+          </Key>
+          <Property Name="CODIGO" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="NOMBRES" Type="varchar" MaxLength="30" />
+          <Property Name="APELLIDOS" Type="varchar" MaxLength="30" />
+          <Property Name="NUMEROFACTURA" Type="int" Nullable="false" />
+          <Property Name="MONTO" Type="money" />
+          <Property Name="PAGOS" Type="money" />
+          <Property Name="BALANCE" Type="money" />
+        </EntityType>
+        <Association Name="CHEQ_FACT">
+          <End Role="FACTURASOMAR" Type="Self.FACTURASOMAR" Multiplicity="0..1" />
+          <End Role="CHEQUESOMAR" Type="Self.CHEQUESOMAR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FACTURASOMAR">
+              <PropertyRef Name="NUMEROFACTURA" />
+            </Principal>
+            <Dependent Role="CHEQUESOMAR">
+              <PropertyRef Name="NUMEROFACTURA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FACT_PROV">
+          <End Role="PROVEEDORESOMAR" Type="Self.PROVEEDORESOMAR" Multiplicity="0..1" />
+          <End Role="FACTURASOMAR" Type="Self.FACTURASOMAR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROVEEDORESOMAR">
+              <PropertyRef Name="CODIGO" />
+            </Principal>
+            <Dependent Role="FACTURASOMAR">
+              <PropertyRef Name="CODIGO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SCXPOMARModelStoreContainer">
+          <EntitySet Name="CHEQUESOMAR" EntityType="Self.CHEQUESOMAR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FACTURASOMAR" EntityType="Self.FACTURASOMAR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PROVEEDORESOMAR" EntityType="Self.PROVEEDORESOMAR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USUARIOSOMAR" EntityType="Self.USUARIOSOMAR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ESTADODECUENTASOMAR" EntityType="Self.ESTADODECUENTASOMAR" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ESTADODECUENTASOMAR].[CODIGO] AS [CODIGO], 
+    [ESTADODECUENTASOMAR].[NOMBRES] AS [NOMBRES], 
+    [ESTADODECUENTASOMAR].[APELLIDOS] AS [APELLIDOS], 
+    [ESTADODECUENTASOMAR].[NUMEROFACTURA] AS [NUMEROFACTURA], 
+    [ESTADODECUENTASOMAR].[MONTO] AS [MONTO], 
+    [ESTADODECUENTASOMAR].[PAGOS] AS [PAGOS], 
+    [ESTADODECUENTASOMAR].[BALANCE] AS [BALANCE]
+    FROM [dbo].[ESTADODECUENTASOMAR] AS [ESTADODECUENTASOMAR]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="CHEQ_FACT" Association="Self.CHEQ_FACT">
+            <End Role="FACTURASOMAR" EntitySet="FACTURASOMAR" />
+            <End Role="CHEQUESOMAR" EntitySet="CHEQUESOMAR" />
+          </AssociationSet>
+          <AssociationSet Name="FACT_PROV" Association="Self.FACT_PROV">
+            <End Role="PROVEEDORESOMAR" EntitySet="PROVEEDORESOMAR" />
+            <End Role="FACTURASOMAR" EntitySet="FACTURASOMAR" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SCXPOMARModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CHEQUESOMAR">
+          <Key>
+            <PropertyRef Name="NUMEROCHEQUE" />
+          </Key>
+          <Property Name="NUMEROCHEQUE" Type="Int32" Nullable="false" />
+          <Property Name="NUMEROFACTURA" Type="Int32" />
+          <Property Name="VALORCHEQUE" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="FECHACHEQUE" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="FACTURASOMAR" Relationship="Self.CHEQ_FACT" FromRole="CHEQUESOMAR" ToRole="FACTURASOMAR" />
+        </EntityType>
+        <EntityType Name="FACTURASOMAR">
+          <Key>
+            <PropertyRef Name="NUMEROFACTURA" />
+          </Key>
+          <Property Name="NUMEROFACTURA" Type="Int32" Nullable="false" />
+          <Property Name="CODIGO" Type="String" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Name="VALORFACTURA" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="FECHAFACTURA" Type="DateTime" Precision="0" />
+          <Property Name="FECHAVENCIMIENTO" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="CHEQUESOMAR" Relationship="Self.CHEQ_FACT" FromRole="FACTURASOMAR" ToRole="CHEQUESOMAR" />
+          <NavigationProperty Name="PROVEEDORESOMAR" Relationship="Self.FACT_PROV" FromRole="FACTURASOMAR" ToRole="PROVEEDORESOMAR" />
+        </EntityType>
+        <EntityType Name="PROVEEDORESOMAR">
+          <Key>
+            <PropertyRef Name="CODIGO" />
+          </Key>
+          <Property Name="CODIGO" Type="String" MaxLength="7" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NOMBRES" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="APELLIDOS" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="DIRECCION" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="CIUDAD" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="TELEFONO" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FACTURASOMAR" Relationship="Self.FACT_PROV" FromRole="PROVEEDORESOMAR" ToRole="FACTURASOMAR" />
+        </EntityType>
+        <EntityType Name="USUARIOSOMAR">
+          <Key>
+            <PropertyRef Name="USUARIO" />
+          </Key>
+          <Property Name="USUARIO" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CLAVE" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ESTADODECUENTASOMAR">
+          <Key>
+            <PropertyRef Name="CODIGO" />
+            <PropertyRef Name="NUMEROFACTURA" />
+          </Key>
+          <Property Name="CODIGO" Type="String" MaxLength="7" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NOMBRES" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="APELLIDOS" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="NUMEROFACTURA" Type="Int32" Nullable="false" />
+          <Property Name="MONTO" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="PAGOS" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="BALANCE" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
+        <Association Name="CHEQ_FACT">
+          <End Role="FACTURASOMAR" Type="Self.FACTURASOMAR" Multiplicity="0..1" />
+          <End Role="CHEQUESOMAR" Type="Self.CHEQUESOMAR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FACTURASOMAR">
+              <PropertyRef Name="NUMEROFACTURA" />
+            </Principal>
+            <Dependent Role="CHEQUESOMAR">
+              <PropertyRef Name="NUMEROFACTURA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FACT_PROV">
+          <End Role="PROVEEDORESOMAR" Type="Self.PROVEEDORESOMAR" Multiplicity="0..1" />
+          <End Role="FACTURASOMAR" Type="Self.FACTURASOMAR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROVEEDORESOMAR">
+              <PropertyRef Name="CODIGO" />
+            </Principal>
+            <Dependent Role="FACTURASOMAR">
+              <PropertyRef Name="CODIGO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SCXPOMAREntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CHEQUESOMAR" EntityType="Self.CHEQUESOMAR" />
+          <EntitySet Name="FACTURASOMAR" EntityType="Self.FACTURASOMAR" />
+          <EntitySet Name="PROVEEDORESOMAR" EntityType="Self.PROVEEDORESOMAR" />
+          <EntitySet Name="USUARIOSOMAR" EntityType="Self.USUARIOSOMAR" />
+          <EntitySet Name="ESTADODECUENTASOMAR" EntityType="Self.ESTADODECUENTASOMAR" />
+          <AssociationSet Name="CHEQ_FACT" Association="Self.CHEQ_FACT">
+            <End Role="FACTURASOMAR" EntitySet="FACTURASOMAR" />
+            <End Role="CHEQUESOMAR" EntitySet="CHEQUESOMAR" />
+          </AssociationSet>
+          <AssociationSet Name="FACT_PROV" Association="Self.FACT_PROV">
+            <End Role="PROVEEDORESOMAR" EntitySet="PROVEEDORESOMAR" />
+            <End Role="FACTURASOMAR" EntitySet="FACTURASOMAR" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SCXPOMARModelStoreContainer" CdmEntityContainer="SCXPOMAREntities">
+          <EntitySetMapping Name="CHEQUESOMAR">
+            <EntityTypeMapping TypeName="SCXPOMARModel.CHEQUESOMAR">
+              <MappingFragment StoreEntitySet="CHEQUESOMAR">
+                <ScalarProperty Name="NUMEROCHEQUE" ColumnName="NUMEROCHEQUE" />
+                <ScalarProperty Name="NUMEROFACTURA" ColumnName="NUMEROFACTURA" />
+                <ScalarProperty Name="VALORCHEQUE" ColumnName="VALORCHEQUE" />
+                <ScalarProperty Name="FECHACHEQUE" ColumnName="FECHACHEQUE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FACTURASOMAR">
+            <EntityTypeMapping TypeName="SCXPOMARModel.FACTURASOMAR">
+              <MappingFragment StoreEntitySet="FACTURASOMAR">
+                <ScalarProperty Name="NUMEROFACTURA" ColumnName="NUMEROFACTURA" />
+                <ScalarProperty Name="CODIGO" ColumnName="CODIGO" />
+                <ScalarProperty Name="VALORFACTURA" ColumnName="VALORFACTURA" />
+                <ScalarProperty Name="FECHAFACTURA" ColumnName="FECHAFACTURA" />
+                <ScalarProperty Name="FECHAVENCIMIENTO" ColumnName="FECHAVENCIMIENTO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PROVEEDORESOMAR">
+            <EntityTypeMapping TypeName="SCXPOMARModel.PROVEEDORESOMAR">
+              <MappingFragment StoreEntitySet="PROVEEDORESOMAR">
+                <ScalarProperty Name="CODIGO" ColumnName="CODIGO" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="APELLIDOS" ColumnName="APELLIDOS" />
+                <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+                <ScalarProperty Name="CIUDAD" ColumnName="CIUDAD" />
+                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USUARIOSOMAR">
+            <EntityTypeMapping TypeName="SCXPOMARModel.USUARIOSOMAR">
+              <MappingFragment StoreEntitySet="USUARIOSOMAR">
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="CLAVE" ColumnName="CLAVE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ESTADODECUENTASOMAR">
+            <EntityTypeMapping TypeName="SCXPOMARModel.ESTADODECUENTASOMAR">
+              <MappingFragment StoreEntitySet="ESTADODECUENTASOMAR">
+                <ScalarProperty Name="CODIGO" ColumnName="CODIGO" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="APELLIDOS" ColumnName="APELLIDOS" />
+                <ScalarProperty Name="NUMEROFACTURA" ColumnName="NUMEROFACTURA" />
+                <ScalarProperty Name="MONTO" ColumnName="MONTO" />
+                <ScalarProperty Name="PAGOS" ColumnName="PAGOS" />
+                <ScalarProperty Name="BALANCE" ColumnName="BALANCE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
