@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace CUENTAS_POR_PAGAR
 {
     public partial class FAGREGARCHEQUES : Form
@@ -20,7 +21,8 @@ namespace CUENTAS_POR_PAGAR
         {
             if ((int)e.KeyChar == (int)Keys.Enter)
             {
-                TNUMFACT.Focus();
+
+                TNUMCHEQ.Focus();
             }
         }
         private void TNUMFACT_KeyPress(object sender, KeyPressEventArgs e)
@@ -63,6 +65,10 @@ namespace CUENTAS_POR_PAGAR
                 MessageBox.Show("ENTRADA INVALIDA. TRATE DE NUEVO");
                 TNUMCHEQ.Focus();
             }
+        }
+        private void FAGREGARCHEQUES_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

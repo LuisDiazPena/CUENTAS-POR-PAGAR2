@@ -16,35 +16,43 @@ namespace CUENTAS_POR_PAGAR
         {
             InitializeComponent();
         }
+
         private void TCODIGO_KeyPress(object sender, KeyPressEventArgs e)
         {
             if ((int)e.KeyChar == (int)Keys.Enter)
             {
-                TNOMBRES.Focus();
+                TCODIGO.Focus();
             }
         }
         private void TNOMBRES_KeyPress(object sender, KeyPressEventArgs e)
         {
             if ((int)e.KeyChar == (int)Keys.Enter)
             {
-                TAPELLIDOS.Focus();
+                TNOMBRES.Focus();
             }
         }
         private void TAPELLIDOS_KeyPress(object sender, KeyPressEventArgs e)
         {
             if ((int)e.KeyChar == (int)Keys.Enter)
             {
-                TDIRECCION.Focus();
+                TAPELLIDOS.Focus();
             }
         }
         private void TDIRECCION_KeyPress(object sender, KeyPressEventArgs e)
         {
             if ((int)e.KeyChar == (int)Keys.Enter)
             {
-                TCIUDAD.Focus();
+                TDIRECCION.Focus();
             }
         }
         private void TCIUDAD_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if ((int)e.KeyChar == (int)Keys.Enter)
+            {
+                TCIUDAD.Focus();
+            }
+        }
+        private void TTELEFONO_KeyPress(object sender, KeyPressEventArgs e)
         {
             if ((int)e.KeyChar == (int)Keys.Enter)
             {
@@ -64,6 +72,12 @@ namespace CUENTAS_POR_PAGAR
            TAPELLIDOS.Text + " " + " HA SIDO AGREGADO", "AGREGAR PROVEEDOR");
             this.Close();
         }
+
+        private void FAGREGARPROV_Load(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
 

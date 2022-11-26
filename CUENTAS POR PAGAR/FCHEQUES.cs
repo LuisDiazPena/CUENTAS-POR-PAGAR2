@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace CUENTAS_POR_PAGAR
 {
     public partial class FCHEQUES : Form
@@ -42,11 +43,11 @@ namespace CUENTAS_POR_PAGAR
             try
             {
                 DGVCHEQUES.DataSource =
-               DATOSCHEQUES.BUSCARNUMERODEFACTURA(int.Parse(TNUMCHEQ.Text));
+               DATOSCHEQUES.BUSCARNUMERODEFACTURA(int.Parse(TNUMFACT.Text));
             }
             catch
             {
-                TNUMCHEQ.Focus();
+                TNUMFACT.Focus();
             }
         }
         private void FCHEQUES_Load(object sender, EventArgs e)
@@ -71,7 +72,7 @@ namespace CUENTAS_POR_PAGAR
         }
         private void BELIMINAR_Click(object sender, EventArgs e)
         {
-            DialogResult respuesta = MessageBox.Show("DESEA ELIMINAR ESTE CHEQUE ? ", "ADVERTENCIA DE ELIMINACION", MessageBoxButtons.YesNo);
+            DialogResult respuesta = MessageBox.Show("DESEA ELIMINAR ESTE  CHEQUE ? ", "ADVERTENCIA DE ELIMINACION", MessageBoxButtons.YesNo);
         if (respuesta == DialogResult.Yes)
             {
                 DataGridViewRow FILA = DGVCHEQUES.CurrentRow;
