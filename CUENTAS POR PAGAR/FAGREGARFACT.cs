@@ -20,14 +20,14 @@ namespace CUENTAS_POR_PAGAR
         {
             if ((int)e.KeyChar == (int)Keys.Enter)
             {
-                TCODIGO.Focus();
+                TNUMFACT.Focus();
             }
         }
         private void TCODIGO_KeyPress(object sender, KeyPressEventArgs e)
         {
             if ((int)e.KeyChar == (int)Keys.Enter)
             {
-                TVALFACT.Focus();
+                TCODIGO.Focus();
             }
         }
         private void TVALFACT_KeyPress(object sender, KeyPressEventArgs e)
@@ -41,7 +41,14 @@ namespace CUENTAS_POR_PAGAR
         {
             if ((int)e.KeyChar == (int)Keys.Enter)
             {
-                TVALFACT.Focus();
+                TFECHAFACT.Focus();
+            }
+        }
+        private void TFECHAVENC_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if ((int)e.KeyChar == (int)Keys.Enter)
+            {
+                TFECHAVENC.Focus();
             }
         }
         private void BAGREGAR_Click(object sender, EventArgs e)

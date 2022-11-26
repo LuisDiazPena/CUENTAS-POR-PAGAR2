@@ -86,6 +86,11 @@ namespace CUENTAS_POR_PAGAR
         {
 
         }
+
+        private void toolStripLabel1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 
